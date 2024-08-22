@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diễn Đàn Trao Đổi Học Tập</title>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+    }
+
+    .header {
+      background-color: #ffffff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .user-info span {
+      font-size: 16px;
+    }
+
+    .menu-icon {
+      font-size: 24px;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .content {
+      max-width: 680px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    .post-box {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-input {
+      display: flex;
+      align-items: center;
+    }
+
+    .post-input img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .post-input input {
+      flex-grow: 1;
+      border: none;
+      padding: 10px;
+      border-radius: 20px;
+      background-color: #f0f2f5;
+    }
+
+    .post-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .post-actions button {
+      background-color: #e4e6eb;
+      border: none;
+      padding: 6px 12px;
+      margin-left: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .post {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .post-user {
+      display: flex;
+      align-items: center;
+    }
+
+    .post-user img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .post-user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post-user-name {
+      font-weight: bold;
+    }
+
+    .post-time {
+      font-size: 12px;
+      color: #65676b;
+    }
+
+    .post-options {
+      position: relative;
+    }
+
+    .post-options-button {
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .post-options-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 120px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .post-options-dropdown a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .post-options-dropdown a:hover {
+      background-color: #f1f1f1;
+    }
+
+    .post-content {
+      margin-bottom: 10px;
+    }
+
+    .post-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .menu-container {
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      display: none;
+    }
+
+    .menu-container ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-container li {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    .menu-container li:hover {
+      background-color: #f0f2f5;
+    }
+  </style>
+</head>
+
+
+<body>
+  <div class="header">
+    <div class="user-info" onclick="window.location.href = 'login.html';">
+      <img id="userAvatar" src="https://via.placeholder.com/40" alt="User Avatar">
+      <span id="username">Chưa đăng nhập</span>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  </div>
+  <div class="menu-container" id="menu-container">
+    <ul>
+      <li><a href="#">Phòng luyện đề</a></li>
+      <li><a href="#">Kho tài liệu</a></li>
+      <li><a href="#">Học cùng AI</a></li>
+      <li><a href="#">Nhóm của tôi</a></li>
+      <li><a href="#" onclick="signOut()">Đăng xuất</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <div class="post-box">
+      <div class="post-input">
+        <img id="postUserAvatar" src="https://via.placeholder.com/40" alt="User Avatar">
+        <input type="text" id="postInput" placeholder="Bạn đang nghĩ gì?">
+      </div>
+      <div class="post-actions">
+        <button onclick="addPost()">Đăng</button>
+        <button onclick="document.getElementById('fileInput').click()">Đính Kèm</button>
+        <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="handleFileUpload(event)">
+      </div>
+    </div>
+    <div id="posts-container">
+      <!-- Posts will be added here dynamically -->
+    </div>
+  </div>
+
+  <script>
+    // Cấu hình Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCopRb4AelNDsVQMwksPggb-AL1Sqw5q3E",
+      authDomain: "tailieufree-70769.firebaseapp.com",
+      databaseURL: "https://tailieufree-70769-default-rtdb.firebaseio.com",
+      projectId: "tailieufree-70769",
+      storageBucket: "tailieufree-70769.appspot.com",
+      messagingSenderId: "265385854576",
+      appId: "1:265385854576:web:ef5a39eee7ea21cc8956b5",
+      measurementId: "G-CHBBC8N2F2"
+    };
+  
+    // Khởi tạo Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const storage = firebase.storage();
+  
+    let currentUser = null;
+    let selectedImage = null;
+  
+    function updateUIAfterLogin() {
+      const userAvatar = document.getElementById('userAvatar');
+      const postUserAvatar = document.getElementById('postUserAvatar');
+      const username = document.getElementById('username');
+  
+      if (userAvatar && postUserAvatar && username) {
+        userAvatar.src = currentUser.avatar || 'https://via.placeholder.com/40';
+        postUserAvatar.src = currentUser.avatar || 'https://via.placeholder.com/40';
+        username.textContent = currentUser.name || 'Người dùng';
+      }
+    }
+  
+    function signOut() {
+      currentUser = null;
+      localStorage.removeItem('currentUser');
+      updateUIAfterLogin();
+      toggleMenu();
+      window.location.href = 'login.html';
+    }
+  
+    function toggleMenu() {
+      const menuContainer = document.getElementById('menu-container');
+      if (menuContainer) {
+        menuContainer.style.display = menuContainer.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+  
+    function checkLoginStatus() {
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        updateUIAfterLogin();
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
+  
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          selectedImage = e.target.result;
+          // Hiển thị ảnh xem trước
+          const previewContainer = document.createElement('div');
+          previewContainer.innerHTML = `<img src="${selectedImage}" alt="Preview" style="max-width: 100%; max-height: 200px; margin-top: 10px;">`;
+          document.querySelector('.post-input').appendChild(previewContainer);
+        }
+        reader.readAsDataURL(file);
+      } else {
+        alert('Vui lòng chọn một tệp ảnh hợp lệ.');
+      }
+    }
+  
+    function getCurrentTime() {
+      return new Date().getTime();
+    }
+  
+    function getTimeDifference(timestamp) {
+      const now = new Date().getTime();
+      const difference = now - timestamp;
+  
+      const minutes = Math.floor(difference / (1000 * 60));
+      const hours = Math.floor(difference / (1000 * 60 * 60));
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  
+      if (minutes < 60) {
+        return minutes === 1 ? "1 phút trước" : `${minutes} phút trước`;
+      } else if (hours < 24) {
+        return hours === 1 ? "1 giờ trước" : `${hours} giờ trước`;
+      } else {
+        return days === 1 ? "1 ngày trước" : `${days} ngày trước`;
+      }
+    }
+  
+    function savePostsToFirebase(posts) {
+      const postRef = database.ref('posts');
+      posts.forEach(post => {
+        postRef.child(post.id).set(post);
+      });
+    }
+  
+    function loadPostsFromFirebase() {
+      return new Promise((resolve, reject) => {
+        const postRef = database.ref('posts');
+        postRef.on('value', (snapshot) => {
+          const posts = [];
+          snapshot.forEach((childSnapshot) => {
+            posts.push(childSnapshot.val());
+          });
+          resolve(posts);
+        }, (error) => {
+          reject(error);
+        });
+      });
+    }
+  
+    function addPost() {
+      if (!currentUser) {
+        alert('Vui lòng đăng nhập để đăng bài.');
+        return;
+      }
+      const input = document.querySelector('#postInput');
+      const content = input.value.trim();
+      if (content || selectedImage) {
+        const currentTime = getCurrentTime();
+        const newPost = {
+          id: 'post-' + currentTime,
+          content: content,
+          image: selectedImage,
+          author: currentUser.name,
+          authorPicture: currentUser.avatar || 'https://via.placeholder.com/40',
+          timestamp: currentTime
+        };
+  
+        loadPostsFromFirebase()
+          .then(posts => {
+            posts.unshift(newPost);
+            savePostsToFirebase(posts);
+            displayPost(newPost);
+            input.value = '';
+            selectedImage = null;
+            const previewContainer = document.querySelector('.post-input div');
+            if (previewContainer) {
+              previewContainer.remove();
+            }
+          })
+          .catch(error => {
+            console.error('Error saving post:', error);
+          });
+      }
+    }
+  
+    function displayPost(post) {
+      const postContainer = document.getElementById('posts-container');
+      const postElement = document.createElement('div');
+      postElement.className = 'post';
+      postElement.innerHTML = `
+        <div class="post-header">
+          <div class="post-user">
+            <img src="${post.authorPicture}" alt="User Avatar">
+            <div class="post-user-info">
+              <span class="post-user-name">${post.author}</span>
+              <span class="post-time" data-timestamp="${post.timestamp}">Vừa xong</span>
+            </div>
+          </div>
+          <div class="post-options">
+            <span class="post-options-button" onclick="togglePostOptions('${post.id}')">&#8942;</span>
+            <div id="${post.id}-options" class="post-options-dropdown">
+              <a href="#" onclick="editPost('${post.id}')">Chỉnh sửa</a>
+              <a href="#" onclick="deletePost('${post.id}')">Xóa</a>
+            </div>
+          </div>
+        </div>
+        <div class="post-content" id="${post.id}-content">${post.content}</div>
+        ${post.image ? `<img src="${post.image}" alt="Uploaded Image" class="post-image">` : ''}
+      `;
+      postContainer.prepend(postElement);
+    }
+  
+    function togglePostOptions(postId) {
+      const optionsDropdown = document.getElementById(`${postId}-options`);
+      optionsDropdown.style.display = optionsDropdown.style.display === 'block' ? 'none' : 'block';
+    }
+  
+    function editPost(postId) {
+      loadPostsFromFirebase()
+        .then(posts => {
+          const postIndex = posts.findIndex(post => post.id === postId);
+          if (postIndex !== -1) {
+            const currentContent = posts[postIndex].content;
+            const newContent = prompt('Chỉnh sửa bài đăng:', currentContent);
+            if (newContent !== null && newContent.trim() !== '') {
+              posts[postIndex].content = newContent.trim();
+              savePostsToFirebase(posts);
+              const contentElement = document.getElementById(`${postId}-content`);
+              contentElement.textContent = newContent.trim();
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error loading posts:', error);
+        });
+      togglePostOptions(postId);
+    }
+  
+    function deletePost(postId) {
+      if (confirm('Bạn có chắc chắn muốn xóa bài đăng này?')) {
+        loadPostsFromFirebase()
+          .then(posts => {
+            const updatedPosts = posts.filter(post => post.id !== postId);
+            savePostsToFirebase(updatedPosts);
+            const post = document.getElementById(`${postId}-content`).closest('.post');
+            post.remove();
+          })
+          .catch(error => {
+            console.error('Error loading posts:', error);
+          });
+      }
+      togglePostOptions(postId);
+    }
+  
+    function updatePostTimes() {
+      const postTimes = document.querySelectorAll('.post-time');
+      postTimes.forEach(postTime => {
+        const timestamp = parseInt(postTime.getAttribute('data-timestamp'));
+        postTime.textContent = getTimeDifference(timestamp);
+      });
+    }
+  
+    function loadAndDisplayPosts() {
+      loadPostsFromFirebase()
+        .then(posts => {
+          posts.forEach(post => displayPost(post));
+          updatePostTimes();
+        })
+        .catch(error => {
+          console.error('Error loading posts:', error);
+        });
+    }
+  
+    // Thêm event listener để đóng dropdown khi click bên ngoài
+    document.addEventListener('click', function (event) {
+      if (!event.target.matches('.post-options-button')) {
+        const dropdowns = document.getElementsByClassName('post-options-dropdown');
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.style.display === 'block') {
+            openDropdown.style.display = 'none';
+          }
+        }
+      }
+    });
+  
+    window.onload = function () {
+      checkLoginStatus();
+      loadAndDisplayPosts();
+      setInterval(updatePostTimes, 60000);
+    };
+  </script>
+</body>
+
+</html>

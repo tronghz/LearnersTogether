@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyApp - Đăng Nhập/Đăng Ký</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <style>
+    body {
+      font-family: "Roboto", sans-serif;
+      background-color: #f1f2f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #666;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .error-message {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    #avatar-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 66%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 20px;
+      /* Tăng kích thước của biểu tượng */
+      padding: 0;
+      line-height: 1;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 id="title">Đăng Nhập</h1>
+    <div id="login-form">
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="Nhập email của bạn" required />
+      </div>
+      <div class="form-group password-container">
+        <label for="login-password">Mật khẩu</label>
+        <input type="password" id="login-password" placeholder="Nhập mật khẩu của bạn" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">
+          👁️
+        </button>
+      </div>
+      <button onclick="login()">Đăng Nhập</button>
+    </div>
+    <div id="register-form" style="display: none">
+      <div class="form-group">
+        <label for="register-name">Tên</label>
+        <input type="text" id="register-name" placeholder="Nhập tên của bạn" required />
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" placeholder="Nhập email của bạn" required />
+      </div>
+      <div class="form-group password-container">
+        <label for="register-password">Mật khẩu</label>
+        <input type="password" id="register-password" placeholder="Nhập mật khẩu của bạn" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('register-password', this)">
+          👁️
+        </button>
+      </div>
+      <div class="form-group password-container">
+        <label for="register-confirm-password">Nhập lại mật khẩu</label>
+        <input type="password" id="register-confirm-password" placeholder="Nhập lại mật khẩu của bạn" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('register-confirm-password', this)">
+          👁️
+        </button>
+      </div>
+      <div class="form-group">
+        <label for="register-avatar">Ảnh đại diện</label>
+        <input type="file" id="register-avatar" accept="image/*" onchange="previewAvatar(event)" />
+        <div id="avatar-preview"></div>
+      </div>
+      <button onclick="register()">Đăng Ký</button>
+    </div>
+    <div class="error-message" id="error-message"></div>
+    <button onclick="toggleForm()" id="toggle-form-btn">
+      Chuyển sang Đăng Ký
+    </button>
+  </div>
+
+  <script>
+    // Cấu hình Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyAWHImdFfmqTfhrDu4uwtzV2KM_MkFLf7o",
+  authDomain: "tailieufree-70769.firebaseapp.com",
+  databaseURL: "https://tailieufree-70769-default-rtdb.firebaseio.com",
+  projectId: "tailieufree-70769",
+  storageBucket: "tailieufree-70769.appspot.com",
+  messagingSenderId: "265385854576",
+  appId: "1:265385854576:web:ef5a39eee7ea21cc8956b5",
+  measurementId: "G-CHBBC8N2F2",
+};
+
+// Khởi tạo Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Lấy tham chiếu đến database
+const database = firebase.database();
+
+let currentUser = null;
+
+function login() {
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+  
+  database.ref('users').orderByChild('email').equalTo(email).once('value')
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.password === password) {
+            currentUser = userData;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            alert('Đăng nhập thành công!');
+            window.location.href = 'index.html';
+          } else {
+            document.getElementById('error-message').textContent = 'Email hoặc mật khẩu không chính xác.';
+          }
+        });
+      } else {
+        document.getElementById('error-message').textContent = 'Email hoặc mật khẩu không chính xác.';
+      }
+    })
+    .catch((error) => {
+      console.error("Lỗi khi đăng nhập:", error);
+      document.getElementById('error-message').textContent = 'Có lỗi xảy ra, vui lòng thử lại sau.';
+    });
+}
+
+function register() {
+  const name = document.getElementById("register-name").value.trim();
+  const email = document.getElementById("register-email").value.trim();
+  const password = document.getElementById("register-password").value;
+  const confirmPassword = document.getElementById("register-confirm-password").value;
+  const avatarFile = document.getElementById("register-avatar").files[0];
+
+  if (password !== confirmPassword) {
+    document.getElementById("error-message").textContent = "Mật khẩu nhập lại không khớp.";
+    return;
+  }
+
+  database.ref('users').orderByChild('email').equalTo(email).once('value')
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        document.getElementById("error-message").textContent = "Email đã được đăng ký.";
+      } else {
+        if (avatarFile) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            saveNewUser(name, email, password, e.target.result);
+          };
+          reader.readAsDataURL(avatarFile);
+        } else {
+          saveNewUser(name, email, password, null);
+        }
+      }
+    })
+    .catch((error) => {
+      console.error("Lỗi khi đăng ký:", error);
+      document.getElementById('error-message').textContent = 'Có lỗi xảy ra, vui lòng thử lại sau.';
+    });
+}
+
+function saveNewUser(name, email, password, avatar) {
+  const newUser = { name, email, password, avatar };
+  const newUserRef = database.ref("users").push();
+  newUserRef.set(newUser)
+    .then(() => {
+      alert("Đăng ký thành công!");
+      toggleForm();
+    })
+    .catch((error) => {
+      console.error("Lỗi khi lưu người dùng mới:", error);
+      document.getElementById('error-message').textContent = 'Có lỗi xảy ra khi đăng ký, vui lòng thử lại sau.';
+    });
+}
+
+function toggleForm() {
+  const loginForm = document.getElementById("login-form");
+  const registerForm = document.getElementById("register-form");
+  const title = document.getElementById("title");
+  const toggleBtn = document.getElementById("toggle-form-btn");
+  if (loginForm.style.display === "none") {
+    loginForm.style.display = "block";
+    registerForm.style.display = "none";
+    title.textContent = "Đăng Nhập";
+    toggleBtn.textContent = "Chuyển sang Đăng Ký";
+  } else {
+    loginForm.style.display = "none";
+    registerForm.style.display = "block";
+    title.textContent = "Đăng Ký";
+    toggleBtn.textContent = "Chuyển sang Đăng Nhập";
+  }
+  document.getElementById("error-message").textContent = "";
+}
+
+function previewAvatar(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("avatar-preview").style.backgroundImage = `url(${e.target.result})`;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function togglePassword(inputId, toggleButton) {
+  const input = document.getElementById(inputId);
+  if (input.type === "password") {
+    input.type = "text";
+    toggleButton.textContent = "🔒";
+  } else {
+    input.type = "password";
+    toggleButton.textContent = "👁️";
+  }
+}
+
+function displayUserAvatar() {
+  if (currentUser && currentUser.avatar) {
+    document.getElementById("user-avatar").style.backgroundImage = `url(${currentUser.avatar})`;
+  }
+}
+
+function checkLoggedInUser() {
+  const storedUser = localStorage.getItem("currentUser");
+  if (storedUser) {
+    currentUser = JSON.parse(storedUser);
+    displayUserAvatar();
+  }
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+window.onload = function () {
+  checkLoggedInUser();
+};
+  </script>
+</body>
+
+</html>
