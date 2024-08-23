@@ -9,213 +9,366 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f2f5;
-    }
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  transition: background 0.3s ease;
+}
 
-    .header {
-      background-color: #ffffff;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+.header {
+  background: linear-gradient(to right, #4fb5fe 0%, #65d2d7 100%);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(110, 109, 109, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
 
-    .user-info {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
+.user-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
 
-    .user-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
+.user-info:hover {
+  transform: scale(1.05);
+}
 
-    .user-info span {
-      font-size: 16px;
-    }
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    .menu-icon {
-      font-size: 24px;
-      cursor: pointer;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
+.user-info span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+}
 
-    .content {
-      max-width: 680px;
-      margin: 20px auto;
-      padding: 20px;
-    }
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: #ffffff;
+}
 
-    .post-box {
-      background-color: #ffffff;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
+.menu-icon:hover {
+  transform: rotate(90deg);
+}
 
-    .post-input {
-      display: flex;
-      align-items: center;
-    }
+.content {
+  max-width: 800px;
+  margin: 100px auto 20px;
+  padding: 20px;
+}
 
-    .post-input img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
+.post-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
 
-    .post-input input {
-      flex-grow: 1;
-      border: none;
-      padding: 10px;
-      border-radius: 20px;
-      background-color: #f0f2f5;
-    }
+.post-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
 
-    .post-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
+.post-input {
+  display: flex;
+  align-items: center;
+}
 
-    .post-actions button {
-      background-color: #e4e6eb;
-      border: none;
-      padding: 6px 12px;
-      margin-left: 8px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+.post-input img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    .post {
-      background-color: #ffffff;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
+.post-input input {
+  flex-grow: 1;
+  border: none;
+  padding: 15px;
+  border-radius: 25px;
+  background-color: #f0f2f5;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
 
-    .post-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+.post-input input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #4facfe;
+}
 
-    .post-user {
-      display: flex;
-      align-items: center;
-    }
+.post-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
 
-    .post-user img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
+.post-actions button {
+  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-    .post-user-info {
-      display: flex;
-      flex-direction: column;
-    }
+.post-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
 
-    .post-user-name {
-      font-weight: bold;
-    }
+.post {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-out;
+}
 
-    .post-time {
-      font-size: 12px;
-      color: #65676b;
-    }
+.post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
 
-    .post-options {
-      position: relative;
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .post-options-button {
-      cursor: pointer;
-      font-size: 20px;
-      font-weight: bold;
-    }
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
 
-    .post-options-dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      background-color: #f9f9f9;
-      min-width: 120px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
+.post-user {
+  display: flex;
+  align-items: center;
+}
 
-    .post-options-dropdown a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
+.post-user img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    .post-options-dropdown a:hover {
-      background-color: #f1f1f1;
-    }
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+}
 
-    .post-content {
-      margin-bottom: 10px;
-    }
+.post-user-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+}
 
-    .post-image {
-      width: 100%;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
+.post-time {
+  font-size: 14px;
+  color: #65676b;
+}
 
-    .menu-container {
-      position: absolute;
-      top: 50px;
-      right: 10px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      z-index: 1;
-      display: none;
-    }
+.post-options {
+  position: relative;
+}
 
-    .menu-container ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
+.post-options-button {
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  color: #65676b;
+}
 
-    .menu-container li {
-      padding: 8px 16px;
-      cursor: pointer;
-    }
+.post-options-button:hover {
+  transform: rotate(90deg);
+}
 
-    .menu-container li:hover {
-      background-color: #f0f2f5;
-    }
+.post-options-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #ffffff;
+  min-width: 150px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-options-dropdown a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.post-options-dropdown a:hover {
+  background-color: #f1f1f1;
+}
+
+.post-content {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #333;
+}
+
+.post-image {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 15px;
+  transition: transform 0.3s ease;
+}
+
+.post-image:hover {
+  transform: scale(1.02);
+}
+
+.menu-container {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-container li {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.menu-container li:hover {
+  background-color: #f0f2f5;
+}
+
+.loading {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+}
+
+.loading:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #5aadf6;
+  border-color: #5cb1fb transparent #5cb1fb transparent;
+  animation: loading 1.2s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.dark-mode {
+  background: linear-gradient(135deg, #2c3e50 0%, #1a2a3d 100%);
+  color: #e4e6eb;
+}
+
+.dark-mode .header,
+.dark-mode .post-box,
+.dark-mode .post,
+.dark-mode .menu-container {
+  background-color: #2c3e50;
+  color: #e4e6eb;
+}
+
+.dark-mode .post-input input {
+  background-color: #3a3b3c;
+  color: #e4e6eb;
+}
+
+.dark-mode .post-actions button {
+  background: linear-gradient(to right, #3498db 0%, #2980b9 100%);
+}
+
+.dark-mode .post-time {
+  color: #b0b3b8;
+}
   </style>
 </head>
 
-
 <body>
+  <div class="loading" id="loading"></div>
   <div class="header">
-    <div class="user-info" onclick="window.location.href = 'login.html';">
-      <img id="userAvatar" src="https://via.placeholder.com/40" alt="User Avatar">
+    <div class="user-info" onclick="window.location.href = 'infor.html';">
+      <img id="userAvatar" src="account.png" alt="User Avatar">
       <span id="username">Chưa đăng nhập</span>
     </div>
     <div class="menu-icon" onclick="toggleMenu()">☰</div>
@@ -226,18 +379,19 @@
       <li><a href="#">Kho tài liệu</a></li>
       <li><a href="#">Học cùng AI</a></li>
       <li><a href="#">Nhóm của tôi</a></li>
-      <li><a href="#" onclick="signOut()">Đăng xuất</a></li>
+      <li><a href="#" onclick="toggleDarkMode()">Chế độ tối</a></li>
+   
     </ul>
   </div>
   <div class="content">
     <div class="post-box">
       <div class="post-input">
-        <img id="postUserAvatar" src="https://via.placeholder.com/40" alt="User Avatar">
+        <img id="postUserAvatar" src="account.png" alt="User Avatar">
         <input type="text" id="postInput" placeholder="Bạn đang nghĩ gì?">
       </div>
       <div class="post-actions">
-        <button onclick="addPost()">Đăng</button>
-        <button onclick="document.getElementById('fileInput').click()">Đính Kèm</button>
+        <button onclick="addPost()"><i class="fas fa-paper-plane"></i> Đăng</button>
+<button onclick="document.getElementById('fileInput').click()"><i class="fas fa-image"></i> Đính Kèm</button>
         <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="handleFileUpload(event)">
       </div>
     </div>
@@ -258,27 +412,62 @@
       appId: "1:265385854576:web:ef5a39eee7ea21cc8956b5",
       measurementId: "G-CHBBC8N2F2"
     };
-  
+
     // Khởi tạo Firebase
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     const storage = firebase.storage();
-  
+
     let currentUser = null;
     let selectedImage = null;
-  
+
     function updateUIAfterLogin() {
       const userAvatar = document.getElementById('userAvatar');
       const postUserAvatar = document.getElementById('postUserAvatar');
       const username = document.getElementById('username');
-  
+
       if (userAvatar && postUserAvatar && username) {
-        userAvatar.src = currentUser.avatar || 'https://via.placeholder.com/40';
-        postUserAvatar.src = currentUser.avatar || 'https://via.placeholder.com/40';
+        userAvatar.src = currentUser.avatar || 'account.png';
+        postUserAvatar.src = currentUser.avatar || 'account.png';
         username.textContent = currentUser.name || 'Người dùng';
       }
     }
-  
+    function showLoading() {
+      document.getElementById('loading').style.display = 'block';
+    }
+
+    function hideLoading() {
+      document.getElementById('loading').style.display = 'none';
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    // Kiểm tra và áp dụng chế độ tối khi tải trang
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+
+    // Cập nhật các hàm hiện có để sử dụng hiệu ứng loading
+
+    function loadAndDisplayPosts() {
+      showLoading();
+      const postsContainer = document.getElementById('posts-container');
+      postsContainer.innerHTML = '';
+
+      loadPostsFromFirebase()
+        .then(posts => {
+          posts.forEach(post => displayPost(post));
+          updatePostTimes();
+          hideLoading();
+        })
+        .catch(error => {
+          console.error('Lỗi khi tải bài đăng:', error);
+          hideLoading();
+        });
+    }
     function signOut() {
       currentUser = null;
       localStorage.removeItem('currentUser');
@@ -286,14 +475,14 @@
       toggleMenu();
       window.location.href = 'login.html';
     }
-  
+
     function toggleMenu() {
       const menuContainer = document.getElementById('menu-container');
       if (menuContainer) {
         menuContainer.style.display = menuContainer.style.display === 'none' ? 'block' : 'none';
       }
     }
-  
+
     function checkLoginStatus() {
       const storedUser = localStorage.getItem('currentUser');
       if (storedUser) {
@@ -303,7 +492,7 @@
         window.location.href = 'login.html';
       }
     }
-  
+
     function handleFileUpload(event) {
       const file = event.target.files[0];
       if (file && file.type.startsWith('image/')) {
@@ -320,19 +509,19 @@
         alert('Vui lòng chọn một tệp ảnh hợp lệ.');
       }
     }
-  
+
     function getCurrentTime() {
       return new Date().getTime();
     }
-  
+
     function getTimeDifference(timestamp) {
       const now = new Date().getTime();
       const difference = now - timestamp;
-  
+
       const minutes = Math.floor(difference / (1000 * 60));
       const hours = Math.floor(difference / (1000 * 60 * 60));
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-  
+
       if (minutes < 60) {
         return minutes === 1 ? "1 phút trước" : `${minutes} phút trước`;
       } else if (hours < 24) {
@@ -341,21 +530,27 @@
         return days === 1 ? "1 ngày trước" : `${days} ngày trước`;
       }
     }
-  
+
     function savePostsToFirebase(posts) {
-      const postRef = database.ref('posts');
-      posts.forEach(post => {
-        postRef.child(post.id).set(post);
-      });
-    }
-  
+  const postRef = database.ref('posts');
+  // Xóa tất cả bài đăng hiện có
+  return postRef.remove().then(() => {
+    // Thêm lại các bài đăng còn lại
+    const updates = {};
+    posts.forEach(post => {
+      updates[post.id] = post;
+    });
+    return postRef.update(updates);
+  });
+}
+
     function loadPostsFromFirebase() {
       return new Promise((resolve, reject) => {
-        const postRef = database.ref('posts');
-        postRef.on('value', (snapshot) => {
+        const postRef = database.ref('posts').orderByChild('timestamp').limitToLast(50); // Giới hạn 50 bài đăng gần nhất
+        postRef.once('value', (snapshot) => {
           const posts = [];
           snapshot.forEach((childSnapshot) => {
-            posts.push(childSnapshot.val());
+            posts.unshift(childSnapshot.val()); // Sử dụng unshift để thêm bài đăng mới nhất vào đầu mảng
           });
           resolve(posts);
         }, (error) => {
@@ -363,12 +558,13 @@
         });
       });
     }
-  
+
     function addPost() {
       if (!currentUser) {
         alert('Vui lòng đăng nhập để đăng bài.');
         return;
       }
+      
       const input = document.querySelector('#postInput');
       const content = input.value.trim();
       if (content || selectedImage) {
@@ -378,15 +574,14 @@
           content: content,
           image: selectedImage,
           author: currentUser.name,
-          authorPicture: currentUser.avatar || 'https://via.placeholder.com/40',
-          timestamp: currentTime
+          authorPicture: currentUser.avatar || 'account.png',
+          timestamp: firebase.database.ServerValue.TIMESTAMP
         };
-  
-        loadPostsFromFirebase()
-          .then(posts => {
-            posts.unshift(newPost);
-            savePostsToFirebase(posts);
-            displayPost(newPost);
+
+        const postRef = database.ref('posts').push();
+        postRef.set(newPost)
+          .then(() => {
+            displayPostAtTop(newPost); // Hiển thị bài đăng mới ở đầu trang
             input.value = '';
             selectedImage = null;
             const previewContainer = document.querySelector('.post-input div');
@@ -395,56 +590,91 @@
             }
           })
           .catch(error => {
-            console.error('Error saving post:', error);
+            console.error('Lỗi khi lưu bài đăng:', error);
           });
       }
     }
-  
-    function displayPost(post) {
+
+    function displayPostAtTop(post) {
       const postContainer = document.getElementById('posts-container');
       const postElement = document.createElement('div');
       postElement.className = 'post';
+      postElement.setAttribute('data-id', post.id);
       postElement.innerHTML = `
-        <div class="post-header">
-          <div class="post-user">
-            <img src="${post.authorPicture}" alt="User Avatar">
-            <div class="post-user-info">
-              <span class="post-user-name">${post.author}</span>
-              <span class="post-time" data-timestamp="${post.timestamp}">Vừa xong</span>
-            </div>
-          </div>
-          <div class="post-options">
-            <span class="post-options-button" onclick="togglePostOptions('${post.id}')">&#8942;</span>
-            <div id="${post.id}-options" class="post-options-dropdown">
-              <a href="#" onclick="editPost('${post.id}')">Chỉnh sửa</a>
-              <a href="#" onclick="deletePost('${post.id}')">Xóa</a>
-            </div>
+    <div class="post-header">
+      <div class="post-user">
+        <img src="${post.authorPicture || 'account.png'}" alt="User Avatar">
+        <div class="post-user-info">
+          <span class="post-user-name">${post.author}</span>
+          <span class="post-time" data-timestamp="${post.timestamp}">Vừa xong</span>
+        </div>
+      </div>
+      ${currentUser && currentUser.name === post.author ? `
+        <div class="post-options">
+          <span class="post-options-button" onclick="togglePostOptions('${post.id}')">&#8942;</span>
+          <div id="${post.id}-options" class="post-options-dropdown">
+            <a href="#" onclick="editPost('${post.id}')">Chỉnh sửa</a>
+            <a href="#" onclick="deletePost('${post.id}')">Xóa</a>
           </div>
         </div>
-        <div class="post-content" id="${post.id}-content">${post.content}</div>
-        ${post.image ? `<img src="${post.image}" alt="Uploaded Image" class="post-image">` : ''}
-      `;
-      postContainer.prepend(postElement);
+      ` : ''}
+    </div>
+    <div class="post-content" id="${post.id}-content">${post.content}</div>
+    ${post.image ? `<img src="${post.image}" alt="Uploaded Image" class="post-image">` : ''}
+  `;
+      postContainer.insertBefore(postElement, postContainer.firstChild);
     }
-  
+    function displayPost(post) {
+  const postContainer = document.getElementById('posts-container');
+  const postElement = document.createElement('div');
+  postElement.className = 'post';
+  postElement.setAttribute('data-id', post.id);
+      postElement.innerHTML = `
+    <div class="post-header">
+      <div class="post-user">
+        <img src="${post.authorPicture || 'account.png'}" alt="User Avatar">
+        <div class="post-user-info">
+          <span class="post-user-name">${post.author}</span>
+          <span class="post-time" data-timestamp="${post.timestamp}">Vừa xong</span>
+        </div>
+      </div>
+      ${currentUser && currentUser.name === post.author ? `
+        <div class="post-options">
+          <span class="post-options-button" onclick="togglePostOptions('${post.id}')">&#8942;</span>
+          <div id="${post.id}-options" class="post-options-dropdown">
+            <a href="#" onclick="editPost('${post.id}')">Chỉnh sửa</a>
+            <a href="#" onclick="deletePost('${post.id}')">Xóa</a>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+    <div class="post-content" id="${post.id}-content">${post.content}</div>
+    ${post.image ? `<img src="${post.image}" alt="Uploaded Image" class="post-image">` : ''}
+  `;
+      postContainer.appendChild(postElement);
+    }
+
     function togglePostOptions(postId) {
       const optionsDropdown = document.getElementById(`${postId}-options`);
       optionsDropdown.style.display = optionsDropdown.style.display === 'block' ? 'none' : 'block';
     }
-  
+
+
     function editPost(postId) {
       loadPostsFromFirebase()
         .then(posts => {
-          const postIndex = posts.findIndex(post => post.id === postId);
-          if (postIndex !== -1) {
-            const currentContent = posts[postIndex].content;
+          const post = posts.find(p => p.id === postId);
+          if (post && currentUser && currentUser.name === post.author) {
+            const currentContent = post.content;
             const newContent = prompt('Chỉnh sửa bài đăng:', currentContent);
             if (newContent !== null && newContent.trim() !== '') {
-              posts[postIndex].content = newContent.trim();
+              post.content = newContent.trim();
               savePostsToFirebase(posts);
               const contentElement = document.getElementById(`${postId}-content`);
               contentElement.textContent = newContent.trim();
             }
+          } else {
+            alert('Bạn không có quyền chỉnh sửa bài đăng này.');
           }
         })
         .catch(error => {
@@ -452,23 +682,38 @@
         });
       togglePostOptions(postId);
     }
-  
     function deletePost(postId) {
-      if (confirm('Bạn có chắc chắn muốn xóa bài đăng này?')) {
-        loadPostsFromFirebase()
-          .then(posts => {
-            const updatedPosts = posts.filter(post => post.id !== postId);
-            savePostsToFirebase(updatedPosts);
-            const post = document.getElementById(`${postId}-content`).closest('.post');
-            post.remove();
-          })
-          .catch(error => {
-            console.error('Error loading posts:', error);
-          });
-      }
-      togglePostOptions(postId);
-    }
-  
+  if (confirm('Bạn có chắc chắn muốn xóa bài đăng này?')) {
+    showLoading();
+    loadPostsFromFirebase()
+      .then(posts => {
+        const postIndex = posts.findIndex(p => p.id === postId);
+        if (postIndex !== -1 && currentUser && currentUser.name === posts[postIndex].author) {
+          // Xóa bài đăng khỏi mảng posts
+          posts.splice(postIndex, 1);
+          
+          // Lưu lại mảng posts đã cập nhật vào Firebase
+          return savePostsToFirebase(posts);
+        } else {
+          throw new Error('Bạn không có quyền xóa bài đăng này hoặc bài đăng không tồn tại.');
+        }
+      })
+      .then(() => {
+        console.log('Bài đăng đã được xóa khỏi Firebase thành công');
+        // Xóa bài đăng khỏi giao diện người dùng
+        const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+        if (postElement) {
+          postElement.remove();
+        }
+        hideLoading();
+      })
+      .catch(error => {
+        console.error('Lỗi khi xóa bài đăng:', error);
+        alert(error.message || 'Có lỗi xảy ra khi xóa bài đăng. Vui lòng thử lại sau.');
+        hideLoading();
+      });
+  }
+}
     function updatePostTimes() {
       const postTimes = document.querySelectorAll('.post-time');
       postTimes.forEach(postTime => {
@@ -476,18 +721,19 @@
         postTime.textContent = getTimeDifference(timestamp);
       });
     }
-  
     function loadAndDisplayPosts() {
+      const postsContainer = document.getElementById('posts-container');
+      postsContainer.innerHTML = '';
+
       loadPostsFromFirebase()
         .then(posts => {
           posts.forEach(post => displayPost(post));
           updatePostTimes();
         })
         .catch(error => {
-          console.error('Error loading posts:', error);
+          console.error('Lỗi khi tải bài đăng:', error);
         });
     }
-  
     // Thêm event listener để đóng dropdown khi click bên ngoài
     document.addEventListener('click', function (event) {
       if (!event.target.matches('.post-options-button')) {
@@ -500,7 +746,7 @@
         }
       }
     });
-  
+
     window.onload = function () {
       checkLoginStatus();
       loadAndDisplayPosts();
