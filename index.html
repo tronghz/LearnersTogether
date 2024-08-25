@@ -10,23 +10,34 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    body {
-  font-family: 'Roboto', Arial, sans-serif;
+    :root {
+  --primary-color: #4285F4;
+  --secondary-color: #34A853;
+  --accent-color: #FBBC05;
+  --text-color: #202124;
+  --bg-color: #F8F9FA;
+  --card-bg-color: #FFFFFF;
+  --border-color: #DADCE0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  transition: background 0.3s ease;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
 }
 
 .header {
-  background: linear-gradient(to right, #4fb5fe 0%, #65d2d7 100%);
-  padding: 15px;
+  background-color: var(--card-bg-color);
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(110, 109, 109, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   left: 0;
@@ -38,11 +49,11 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .user-info:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }
 
 .user-info img {
@@ -51,44 +62,43 @@
   border-radius: 50%;
   margin-right: 10px;
   object-fit: cover;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--primary-color);
 }
 
 .user-info span {
   font-size: 16px;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .menu-icon {
   font-size: 24px;
   cursor: pointer;
-  transition: transform 0.3s ease;
-  color: #ffffff;
+  transition: color 0.2s ease;
+  color: var(--primary-color);
 }
 
 .menu-icon:hover {
-  transform: rotate(90deg);
+  color: var(--secondary-color);
 }
 
 .content {
   max-width: 800px;
-  margin: 100px auto 20px;
+  margin: 80px auto 20px;
   padding: 20px;
 }
 
 .post-box {
-  background-color: #ffffff;
+  background-color: var(--card-bg-color);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
 .post-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 .post-input {
@@ -102,7 +112,7 @@
   border-radius: 50%;
   margin-right: 15px;
   object-fit: cover;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--primary-color);
 }
 
 .post-input input {
@@ -110,14 +120,15 @@
   border: none;
   padding: 15px;
   border-radius: 25px;
-  background-color: #f0f2f5;
-  transition: all 0.3s ease;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   font-size: 16px;
 }
 
 .post-input input:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #4facfe;
+  box-shadow: 0 0 0 2px var(--primary-color);
+  background-color: var(--card-bg-color);
 }
 
 .post-actions {
@@ -127,37 +138,37 @@
 }
 
 .post-actions button {
-  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 10px 20px;
   margin-left: 10px;
   border-radius: 25px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .post-actions button:hover {
+  background-color: var(--secondary-color);
   transform: translateY(-2px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .post {
-  background-color: #ffffff;
+  background-color: var(--card-bg-color);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   animation: fadeIn 0.5s ease-out;
 }
 
 .post:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes fadeIn {
@@ -189,7 +200,7 @@
   border-radius: 50%;
   margin-right: 15px;
   object-fit: cover;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--primary-color);
 }
 
 .post-user-info {
@@ -200,7 +211,7 @@
 .post-user-name {
   font-weight: bold;
   font-size: 18px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .post-time {
@@ -216,11 +227,12 @@
   cursor: pointer;
   font-size: 24px;
   font-weight: bold;
-  transition: transform 0.3s ease;
-  color: #65676b;
+  transition: all 0.3s ease;
+  color: var(--text-color);
 }
 
 .post-options-button:hover {
+  color: var(--primary-color);
   transform: rotate(90deg);
 }
 
@@ -228,16 +240,16 @@
   display: none;
   position: absolute;
   right: 0;
-  background-color: #ffffff;
+  background-color: var(--card-bg-color);
   min-width: 150px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 1;
   border-radius: 8px;
   overflow: hidden;
 }
 
 .post-options-dropdown a {
-  color: #333;
+  color: var(--text-color);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -245,14 +257,14 @@
 }
 
 .post-options-dropdown a:hover {
-  background-color: #f1f1f1;
+  background-color: var(--bg-color);
 }
 
 .post-content {
   margin-bottom: 15px;
   line-height: 1.6;
   font-size: 16px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .post-image {
@@ -270,101 +282,379 @@
   position: fixed;
   top: 70px;
   right: 20px;
-  background-color: #ffffff;
+  background-color: var(--card-bg-color);
   border-radius: 12px;
   padding: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: none;
   animation: slideIn 0.3s ease-out;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
 
-.menu-container ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.menu-container li {
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    .menu-container ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
 
-.menu-container li:hover {
-  background-color: #f0f2f5;
-}
+    .menu-container li {
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-.loading {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2000;
-}
+    .menu-container li:hover {
+      background-color: var(--bg-color);
+    }
 
-.loading:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid #5aadf6;
-  border-color: #5cb1fb transparent #5cb1fb transparent;
-  animation: loading 1.2s linear infinite;
-}
+    .loading {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2000;
+    }
 
-@keyframes loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+    .loading:after {
+      content: " ";
+      display: block;
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+      border-radius: 50%;
+      border: 6px solid var(--primary-color);
+      border-color: var(--primary-color) transparent var(--primary-color) transparent;
+      animation: loading 1.2s linear infinite;
+    }
 
-.dark-mode {
-  background: linear-gradient(135deg, #2c3e50 0%, #1a2a3d 100%);
-  color: #e4e6eb;
-}
+    @keyframes loading {
+      0% {
+        transform: rotate(0deg);
+      }
 
-.dark-mode .header,
-.dark-mode .post-box,
-.dark-mode .post,
-.dark-mode .menu-container {
-  background-color: #2c3e50;
-  color: #e4e6eb;
-}
+      100% {
+        transform: rotate(360deg);
+      }
+    }
 
-.dark-mode .post-input input {
-  background-color: #3a3b3c;
-  color: #e4e6eb;
-}
+    .dark-mode {
+      --bg-color: #202124;
+      --card-bg-color: #303134;
+      --text-color: #E8EAED;
+      --border-color: #5F6368;
+    }
 
-.dark-mode .post-actions button {
-  background: linear-gradient(to right, #3498db 0%, #2980b9 100%);
-}
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
 
-.dark-mode .post-time {
-  color: #b0b3b8;
-}
+    .post-action-button {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 5px;
+    }
+
+    .post-action-button:hover {
+      background-color: var(--bg-color);
+      color: var(--primary-color);
+    }
+
+    .post-action-button i {
+      margin-right: 5px;
+    }
+
+    .reply-form {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: var(--bg-color);
+      border-radius: 8px;
+    }
+
+    .reply-form textarea {
+      width: 100%;
+      height: 60px;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      resize: vertical;
+      background-color: var(--card-bg-color);
+      color: var(--text-color);
+    }
+
+    .reply-form button {
+      margin-top: 8px;
+      padding: 8px 16px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reply-form button:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .comments-section {
+      margin-top: 15px;
+    }
+
+    .comment {
+      padding: 10px;
+      background-color: var(--bg-color);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .comment-author {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: var(--text-color);
+    }
+
+    .comment-content {
+      margin-bottom: 5px;
+      color: var(--text-color);
+    }
+
+    .comment-time {
+      font-size: 12px;
+      color: #65676b;
+    }
+
+    .reply-form {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: var(--bg-color);
+      border-radius: 8px;
+    }
+
+    .reply-form textarea {
+      width: 100%;
+      height: 60px;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      resize: vertical;
+      background-color: var(--card-bg-color);
+      color: var(--text-color);
+    }
+
+    .reply-form button {
+      margin-top: 8px;
+      padding: 8px 16px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reply-form button:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .image-preview {
+      margin-top: 10px;
+    }
+
+    .comment {
+      padding: 10px;
+      background-color: var(--bg-color);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .comment-author {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .comment-author-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .comment-content {
+      margin-bottom: 5px;
+    }
+
+    .comment-image {
+      max-width: 100%;
+      max-height: 200px;
+      margin-top: 5px;
+      border-radius: 4px;
+    }
+
+    .comment-time {
+      font-size: 12px;
+      color: #65676b;
+    }
+
+    .comment-actions {
+      margin-top: 10px;
+    }
+
+    .comment-actions button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .comment-actions button:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .edit-comment-form {
+      margin-top: 10px;
+    }
+
+    .edit-comment-form textarea {
+      width: 100%;
+      height: 60px;
+      padding: 5px;
+      margin-bottom: 5px;
+    }
+
+    .edit-comment-form button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-comment-form button:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #modalImage {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease-out;
+      cursor: move;
+    }
+
+    .modal-controls {
+      position: absolute;
+      top: 30px;
+      right: 10px;
+      z-index: 901;
+    }
+
+    .modal-controls button {
+      background-color: rgba(255, 255, 255, 0.7);
+      border: none;
+      color: black;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .modal-controls button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    #closeModal {
+      background-color: #ff4444;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #closeModal:hover {
+      background-color: #cc0000;
+    }
   </style>
 </head>
 
 <body>
+  <div id="imageModal" class="modal">
+  <div class="modal-controls">
+    <button id="zoomIn">+</button>
+    <button id="zoomOut">-</button>
+    <div class="menu-close-container">
+      
+      <button id="closeModal">X</button>
+    </div>
+  </div>
+  <div class="modal-content">
+    <img id="modalImage" draggable="false">
+  </div>
+</div>
   <div class="loading" id="loading"></div>
   <div class="header">
     <div class="user-info" onclick="window.location.href = 'infor.html';">
@@ -380,7 +670,7 @@
       <li><a href="#">Học cùng AI</a></li>
       <li><a href="#">Nhóm của tôi</a></li>
       <li><a href="#" onclick="toggleDarkMode()">Chế độ tối</a></li>
-   
+
     </ul>
   </div>
   <div class="content">
@@ -391,7 +681,7 @@
       </div>
       <div class="post-actions">
         <button onclick="addPost()"><i class="fas fa-paper-plane"></i> Đăng</button>
-<button onclick="document.getElementById('fileInput').click()"><i class="fas fa-image"></i> Đính Kèm</button>
+        <button onclick="document.getElementById('fileInput').click()"><i class="fas fa-image"></i> Đính Kèm</button>
         <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="handleFileUpload(event)">
       </div>
     </div>
@@ -468,6 +758,176 @@
           hideLoading();
         });
     }
+    function toggleReplyForm(postId) {
+      const replyForm = document.getElementById(`reply-form-${postId}`);
+      replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function submitReply(postId) {
+      const replyContent = document.getElementById(`reply-content-${postId}`).value.trim();
+      const replyImagePreview = document.getElementById(`reply-image-preview-${postId}`);
+      const replyImage = replyImagePreview.dataset.imageData;
+
+      if ((replyContent || replyImage) && currentUser) {
+        showLoading();
+
+        const newComment = {
+          author: currentUser.name,
+          authorPicture: currentUser.avatar || 'account.png',
+          content: replyContent,
+          image: replyImage,
+          timestamp: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        const commentRef = firebase.database().ref(`posts/${postId}/comments`).push();
+        commentRef.set(newComment)
+          .then(() => {
+            document.getElementById(`reply-content-${postId}`).value = '';
+            replyImagePreview.innerHTML = '';
+            delete replyImagePreview.dataset.imageData;
+            loadComments(postId);
+            hideLoading();
+          })
+          .catch(error => {
+            console.error('Error adding comment:', error);
+            hideLoading();
+          });
+      }
+    }
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImage");
+    var modalContent = document.querySelector(".modal-content");
+    var zoomInBtn = document.getElementById("zoomIn");
+    var zoomOutBtn = document.getElementById("zoomOut");
+    var scale = 1;
+    var isDragging = false;
+    var startX, startY, translateX = 0, translateY = 0;
+    var closeBtn = document.getElementById("closeModal");
+
+    function openModal(imgElement) {
+      modal.style.display = "block";
+      modalImg.src = imgElement.src;
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      updateImageTransform();
+    }
+
+    function updateImageTransform() {
+      modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+
+    // Thêm sự kiện click cho tất cả ảnh trong bài đăng và bình luận
+    document.addEventListener('click', function (e) {
+      if (e.target && (e.target.className === 'post-image' || e.target.className === 'comment-image')) {
+        openModal(e.target);
+      }
+    });
+
+    // Đóng modal khi nhấn vào vùng không chứa ảnh
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    // Phóng to
+    zoomInBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      scale *= 1.2;
+      updateImageTransform();
+    });
+
+    // Thu nhỏ
+    zoomOutBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      scale /= 1.2;
+      updateImageTransform();
+    });
+
+    // Xử lý kéo thả ảnh
+    modalImg.addEventListener('mousedown', function (e) {
+      e.stopPropagation();
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+    });
+
+    document.addEventListener('mousemove', function (e) {
+      if (isDragging) {
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateImageTransform();
+      }
+    });
+
+    document.addEventListener('mouseup', function () {
+      isDragging = false;
+    });
+
+    // Ngăn chặn hành vi kéo thả mặc định của trình duyệt
+    modalImg.addEventListener('dragstart', function (e) {
+      e.preventDefault();
+    });
+
+    // Xử lý phóng to/thu nhỏ bằng cuộn chuột
+    modalContent.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.deltaY < 0) {
+        scale *= 1.1;
+      } else {
+        scale /= 1.1;
+      }
+      updateImageTransform();
+    });
+
+    // Ngăn chặn sự kiện click trên ảnh và nút điều khiển lan truyền đến modal
+    modalContent.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+
+    document.querySelector('.modal-controls').addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+
+    closeBtn.addEventListener('click', function () {
+      modal.style.display = "none";
+    });
+
+
+    function loadComments(postId) {
+      const commentsSection = document.getElementById(`comments-${postId}`);
+      commentsSection.innerHTML = '';
+
+      firebase.database().ref(`posts/${postId}/comments`).orderByChild('timestamp').once('value', snapshot => {
+        snapshot.forEach(childSnapshot => {
+          const comment = childSnapshot.val();
+          const commentId = childSnapshot.key;
+          const commentElement = document.createElement('div');
+          commentElement.className = 'comment';
+          commentElement.setAttribute('data-comment-id', commentId);
+          commentElement.innerHTML = `
+        <div class="comment-author">
+          <img src="${comment.authorPicture}" alt="${comment.author}" class="comment-author-avatar">
+          <span>${comment.author}</span>
+        </div>
+        <div class="comment-content">${comment.content}</div>
+        ${comment.image ? `<img src="${comment.image}" alt="Comment image" class="comment-image">` : ''}
+        <div class="comment-time">${getTimeDifference(comment.timestamp)}</div>
+        ${currentUser && currentUser.name === comment.author ? `
+          <div class="comment-actions">
+            <button onclick="editComment('${postId}', '${commentId}')">Chỉnh sửa</button>
+            <button onclick="deleteComment('${postId}', '${commentId}')">Xóa</button>
+          </div>
+        ` : ''}
+      `;
+          commentsSection.appendChild(commentElement);
+        });
+      });
+    }
+
+
     function signOut() {
       currentUser = null;
       localStorage.removeItem('currentUser');
@@ -510,6 +970,61 @@
       }
     }
 
+    function editComment(postId, commentId) {
+      const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+      const commentContent = commentElement.querySelector('.comment-content');
+      const currentContent = commentContent.textContent;
+
+      const editForm = document.createElement('div');
+      editForm.className = 'edit-comment-form';
+      editForm.innerHTML = `
+    <textarea>${currentContent}</textarea>
+    <button onclick="saveEditedComment('${postId}', '${commentId}')">Lưu</button>
+    <button onclick="cancelEditComment('${postId}', '${commentId}')">Hủy</button>
+  `;
+
+      commentContent.style.display = 'none';
+      commentElement.insertBefore(editForm, commentContent.nextSibling);
+    }
+
+    function saveEditedComment(postId, commentId) {
+      const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+      const editForm = commentElement.querySelector('.edit-comment-form');
+      const newContent = editForm.querySelector('textarea').value.trim();
+
+      if (newContent) {
+        firebase.database().ref(`posts/${postId}/comments/${commentId}/content`).set(newContent)
+          .then(() => {
+            const commentContent = commentElement.querySelector('.comment-content');
+            commentContent.textContent = newContent;
+            commentContent.style.display = 'block';
+            editForm.remove();
+          })
+          .catch(error => console.error('Error updating comment:', error));
+      }
+    }
+
+    function cancelEditComment(postId, commentId) {
+      const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+      const editForm = commentElement.querySelector('.edit-comment-form');
+      const commentContent = commentElement.querySelector('.comment-content');
+
+      commentContent.style.display = 'block';
+      editForm.remove();
+    }
+
+    function deleteComment(postId, commentId) {
+      if (confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
+        firebase.database().ref(`posts/${postId}/comments/${commentId}`).remove()
+          .then(() => {
+            const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+            commentElement.remove();
+          })
+          .catch(error => console.error('Error deleting comment:', error));
+      }
+    }
+
+
     function getCurrentTime() {
       return new Date().getTime();
     }
@@ -532,17 +1047,17 @@
     }
 
     function savePostsToFirebase(posts) {
-  const postRef = database.ref('posts');
-  // Xóa tất cả bài đăng hiện có
-  return postRef.remove().then(() => {
-    // Thêm lại các bài đăng còn lại
-    const updates = {};
-    posts.forEach(post => {
-      updates[post.id] = post;
-    });
-    return postRef.update(updates);
-  });
-}
+      const postRef = database.ref('posts');
+      // Xóa tất cả bài đăng hiện có
+      return postRef.remove().then(() => {
+        // Thêm lại các bài đăng còn lại
+        const updates = {};
+        posts.forEach(post => {
+          updates[post.id] = post;
+        });
+        return postRef.update(updates);
+      });
+    }
 
     function loadPostsFromFirebase() {
       return new Promise((resolve, reject) => {
@@ -564,7 +1079,7 @@
         alert('Vui lòng đăng nhập để đăng bài.');
         return;
       }
-      
+
       const input = document.querySelector('#postInput');
       const content = input.value.trim();
       if (content || selectedImage) {
@@ -575,13 +1090,14 @@
           image: selectedImage,
           author: currentUser.name,
           authorPicture: currentUser.avatar || 'account.png',
-          timestamp: firebase.database.ServerValue.TIMESTAMP
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+          comments: {} // Thêm trường comments
         };
 
         const postRef = database.ref('posts').push();
         postRef.set(newPost)
           .then(() => {
-            displayPostAtTop(newPost); // Hiển thị bài đăng mới ở đầu trang
+            displayPostAtTop(newPost);
             input.value = '';
             selectedImage = null;
             const previewContainer = document.querySelector('.post-input div');
@@ -625,10 +1141,10 @@
       postContainer.insertBefore(postElement, postContainer.firstChild);
     }
     function displayPost(post) {
-  const postContainer = document.getElementById('posts-container');
-  const postElement = document.createElement('div');
-  postElement.className = 'post';
-  postElement.setAttribute('data-id', post.id);
+      const postContainer = document.getElementById('posts-container');
+      const postElement = document.createElement('div');
+      postElement.className = 'post';
+      postElement.setAttribute('data-id', post.id);
       postElement.innerHTML = `
     <div class="post-header">
       <div class="post-user">
@@ -650,8 +1166,86 @@
     </div>
     <div class="post-content" id="${post.id}-content">${post.content}</div>
     ${post.image ? `<img src="${post.image}" alt="Uploaded Image" class="post-image">` : ''}
+    <div class="post-actions">
+      <button class="post-action-button" onclick="bookmarkPost('${post.id}')">
+        <i class="fas fa-bookmark"></i> Đánh dấu
+      </button>
+      <button class="post-action-button" onclick="sharePost('${post.id}')">
+        <i class="fas fa-share"></i> Chia sẻ
+      </button>
+      <button class="post-action-button" onclick="toggleReplyForm('${post.id}')">
+        <i class="fas fa-reply"></i> Trả lời
+      </button>
+    </div>
+    <div id="reply-form-${post.id}" class="reply-form" style="display: none;">
+      <textarea id="reply-content-${post.id}" placeholder="Nhập trả lời của bạn"></textarea>
+      <div class="reply-actions">
+        <button onclick="attachImageToReply('${post.id}')">Đính kèm ảnh</button>
+        <button onclick="submitReply('${post.id}')">Gửi</button>
+      </div>
+      <div id="reply-image-preview-${post.id}" class="image-preview"></div>
+    </div>
+    <div id="comments-${post.id}" class="comments-section"></div>
   `;
       postContainer.appendChild(postElement);
+      loadComments(post.id);
+    }
+    function attachImage(postId) {
+      const fileInput = document.getElementById(`reply-image-${postId}`);
+      fileInput.click();
+
+      fileInput.onchange = function () {
+        const file = fileInput.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const previewContainer = document.getElementById(`reply-image-preview-${postId}`);
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px;">`;
+          }
+          reader.readAsDataURL(file);
+        } else {
+          alert('Vui lòng chọn một tệp ảnh hợp lệ.');
+        }
+      };
+    }
+
+    function attachImageToReply(postId) {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = 'image/*';
+      fileInput.onchange = function (event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const previewContainer = document.getElementById(`reply-image-preview-${postId}`);
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px;">`;
+            previewContainer.dataset.imageData = e.target.result;
+          }
+          reader.readAsDataURL(file);
+        } else {
+          alert('Vui lòng chọn một tệp ảnh hợp lệ.');
+        }
+      };
+      fileInput.click();
+    }
+
+    function bookmarkPost(postId) {
+      // Xử lý logic đánh dấu bài đăng
+      console.log('Đánh dấu bài đăng:', postId);
+      // Thêm logic của bạn ở đây
+    }
+
+    function sharePost(postId) {
+      // Xử lý logic chia sẻ bài đăng
+      console.log('Chia sẻ bài đăng:', postId);
+      // Thêm logic của bạn ở đây
+    }
+
+    function replyToPost(postId) {
+      // Xử lý logic trả lời bài đăng
+      console.log('Trả lời bài đăng:', postId);
+      // Thêm logic của bạn ở đây
     }
 
     function togglePostOptions(postId) {
@@ -683,37 +1277,37 @@
       togglePostOptions(postId);
     }
     function deletePost(postId) {
-  if (confirm('Bạn có chắc chắn muốn xóa bài đăng này?')) {
-    showLoading();
-    loadPostsFromFirebase()
-      .then(posts => {
-        const postIndex = posts.findIndex(p => p.id === postId);
-        if (postIndex !== -1 && currentUser && currentUser.name === posts[postIndex].author) {
-          // Xóa bài đăng khỏi mảng posts
-          posts.splice(postIndex, 1);
-          
-          // Lưu lại mảng posts đã cập nhật vào Firebase
-          return savePostsToFirebase(posts);
-        } else {
-          throw new Error('Bạn không có quyền xóa bài đăng này hoặc bài đăng không tồn tại.');
-        }
-      })
-      .then(() => {
-        console.log('Bài đăng đã được xóa khỏi Firebase thành công');
-        // Xóa bài đăng khỏi giao diện người dùng
-        const postElement = document.querySelector(`.post[data-id="${postId}"]`);
-        if (postElement) {
-          postElement.remove();
-        }
-        hideLoading();
-      })
-      .catch(error => {
-        console.error('Lỗi khi xóa bài đăng:', error);
-        alert(error.message || 'Có lỗi xảy ra khi xóa bài đăng. Vui lòng thử lại sau.');
-        hideLoading();
-      });
-  }
-}
+      if (confirm('Bạn có chắc chắn muốn xóa bài đăng này?')) {
+        showLoading();
+        loadPostsFromFirebase()
+          .then(posts => {
+            const postIndex = posts.findIndex(p => p.id === postId);
+            if (postIndex !== -1 && currentUser && currentUser.name === posts[postIndex].author) {
+              // Xóa bài đăng khỏi mảng posts
+              posts.splice(postIndex, 1);
+
+              // Lưu lại mảng posts đã cập nhật vào Firebase
+              return savePostsToFirebase(posts);
+            } else {
+              throw new Error('Bạn không có quyền xóa bài đăng này hoặc bài đăng không tồn tại.');
+            }
+          })
+          .then(() => {
+            console.log('Bài đăng đã được xóa khỏi Firebase thành công');
+            // Xóa bài đăng khỏi giao diện người dùng
+            const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+            if (postElement) {
+              postElement.remove();
+            }
+            hideLoading();
+          })
+          .catch(error => {
+            console.error('Lỗi khi xóa bài đăng:', error);
+            alert(error.message || 'Có lỗi xảy ra khi xóa bài đăng. Vui lòng thử lại sau.');
+            hideLoading();
+          });
+      }
+    }
     function updatePostTimes() {
       const postTimes = document.querySelectorAll('.post-time');
       postTimes.forEach(postTime => {
