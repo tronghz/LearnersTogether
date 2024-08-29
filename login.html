@@ -226,10 +226,14 @@ function register() {
     return;
   }
 
-  database.ref('users').orderByChild('email').equalTo(email).once('value')
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        document.getElementById("error-message").textContent = "Email đã được đăng ký.";
+  checkUserExists(name, email)
+    .then(({ nameExists, emailExists }) => {
+      if (nameExists && emailExists) {
+        document.getElementById("error-message").textContent = "Tên đăng nhập và email đã tồn tại.";
+      } else if (nameExists) {
+        document.getElementById("error-message").textContent = "Tên đăng nhập đã tồn tại.";
+      } else if (emailExists) {
+        document.getElementById("error-message").textContent = "Email đã tồn tại.";
       } else {
         if (avatarFile) {
           const reader = new FileReader();
@@ -243,7 +247,7 @@ function register() {
       }
     })
     .catch((error) => {
-      console.error("Lỗi khi đăng ký:", error);
+      console.error("Lỗi khi kiểm tra người dùng:", error);
       document.getElementById('error-message').textContent = 'Có lỗi xảy ra, vui lòng thử lại sau.';
     });
 }
@@ -291,6 +295,36 @@ function previewAvatar(event) {
     reader.readAsDataURL(file);
   }
 }
+
+
+function checkUserExists(name, email) {
+  return new Promise((resolve, reject) => {
+    const usersRef = database.ref('users');
+    
+    usersRef.once('value')
+      .then((snapshot) => {
+        let nameExists = false;
+        let emailExists = false;
+        
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.name.toLowerCase() === name.toLowerCase()) {
+            nameExists = true;
+          }
+          if (userData.email.toLowerCase() === email.toLowerCase()) {
+            emailExists = true;
+          }
+        });
+        
+        resolve({ nameExists, emailExists });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
 
 function togglePassword(inputId, toggleButton) {
   const input = document.getElementById(inputId);

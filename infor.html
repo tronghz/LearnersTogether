@@ -137,58 +137,86 @@
             const newName = document.getElementById('update-name').value.trim();
             const avatarFile = document.getElementById('update-avatar').files[0];
 
-            if (avatarFile) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    updateUserData(newName, e.target.result);
-                };
-                reader.readAsDataURL(avatarFile);
-            } else {
-                updateUserData(newName, currentUser.avatar);
-            }
+            // Kiểm tra tên trùng lặp trước khi cập nhật
+            checkDuplicateName(newName)
+                .then(isDuplicate => {
+                    if (isDuplicate) {
+                        document.getElementById('error-message').textContent = 'Tên đã tồn tại, vui lòng chọn tên khác.';
+                    } else {
+                        if (avatarFile) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                updateUserData(newName, e.target.result);
+                            };
+                            reader.readAsDataURL(avatarFile);
+                        } else {
+                            updateUserData(newName, currentUser.avatar);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi khi kiểm tra tên trùng lặp:", error);
+                    document.getElementById('error-message').textContent = 'Có lỗi xảy ra, vui lòng thử lại sau.';
+                });
+        }
+
+        function checkDuplicateName(newName) {
+            return database.ref('users').orderByChild('name').equalTo(newName).once('value')
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        // Kiểm tra xem tên trùng lặp có phải là tên hiện tại của người dùng không
+                        const users = snapshot.val();
+                        for (let key in users) {
+                            if (users[key].email !== currentUser.email) {
+                                return true; // Tên trùng lặp với người dùng khác
+                            }
+                        }
+                    }
+                    return false; // Không trùng lặp
+                });
         }
 
         function updateUserData(name, avatar) {
-    // Trước tiên, tìm key của user hiện tại
-    return database.ref('users').orderByChild('email').equalTo(currentUser.email).once('value')
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const userKey = Object.keys(snapshot.val())[0];
-                const userUpdates = {};
-                userUpdates[`users/${userKey}/name`] = name;
-                userUpdates[`users/${userKey}/avatar`] = avatar;
+            // Tìm key của user hiện tại
+            return database.ref('users').orderByChild('email').equalTo(currentUser.email).once('value')
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const userKey = Object.keys(snapshot.val())[0];
+                        const userUpdates = {};
+                        userUpdates[`users/${userKey}/name`] = name;
+                        userUpdates[`users/${userKey}/avatar`] = avatar;
 
-                return database.ref('posts').once('value')
-                    .then((postSnapshot) => {
-                        const posts = postSnapshot.val() || {};
-                        const postUpdates = {};
-                        
-                        Object.keys(posts).forEach((postId) => {
-                            if (posts[postId].author === currentUser.name) {
-                                postUpdates[`posts/${postId}/author`] = name;
-                                postUpdates[`posts/${postId}/authorPicture`] = avatar;
-                            }
-                        });
-                        
-                        return database.ref().update({...userUpdates, ...postUpdates});
-                    });
-            } else {
-                throw new Error('Không tìm thấy người dùng');
-            }
-        })
-        .then(() => {
-            currentUser.name = name;
-            currentUser.avatar = avatar;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            alert('Cập nhật thông tin thành công!');
-            window.location.href = 'index.html';
-        })
-        .catch((error) => {
-            console.error("Lỗi khi cập nhật:", error);
-            document.getElementById('error-message').textContent = 'Có lỗi xảy ra, vui lòng thử lại sau.';
-        });
-}
+                        return database.ref('posts').once('value')
+                            .then((postSnapshot) => {
+                                const posts = postSnapshot.val() || {};
+                                const postUpdates = {};
+                                
+                                Object.keys(posts).forEach((postId) => {
+                                    if (posts[postId].author === currentUser.name) {
+                                        postUpdates[`posts/${postId}/author`] = name;
+                                        postUpdates[`posts/${postId}/authorPicture`] = avatar;
+                                    }
+                                });
+                                
+                                return database.ref().update({...userUpdates, ...postUpdates});
+                            });
+                    } else {
+                        throw new Error('Không tìm thấy người dùng');
+                    }
+                })
+                .then(() => {
+                    currentUser.name = name;
+                    currentUser.avatar = avatar;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    alert('Cập nhật thông tin thành công!');
+                    window.location.href = 'index.html';
+                })
+                .catch((error) => {
+                    console.error("Lỗi khi cập nhật:", error);
+                    document.getElementById('error-message').textContent = 'Có lỗi xảy ra, vui lòng thử lại sau.';
+                });
+        }
 
         function logout() {
             localStorage.removeItem('currentUser');

@@ -13,283 +13,282 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-  --primary-color: #4285F4;
-  --secondary-color: #34A853;
-  --accent-color: #FBBC05;
-  --text-color: #202124;
-  --bg-color: #F8F9FA;
-  --card-bg-color: #FFFFFF;
-  --border-color: #DADCE0;
-}
+      --primary-color: #4285F4;
+      --secondary-color: #34A853;
+      --accent-color: #FBBC05;
+      --text-color: #202124;
+      --bg-color: #F8F9FA;
+      --card-bg-color: #FFFFFF;
+      --border-color: #DADCE0;
+    }
 
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.3s ease;
-}
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease;
+    }
 
-.header {
-  background-color: var(--card-bg-color);
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
+    .header {
+      background-color: var(--card-bg-color);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
+    .user-info {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
 
-.user-info:hover {
-  transform: translateY(-2px);
-}
+    .user-info:hover {
+      transform: translateY(-2px);
+    }
 
-.user-info img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-  object-fit: cover;
-  border: 2px solid var(--primary-color);
-}
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+      border: 2px solid var(--primary-color);
+    }
 
-.user-info span {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-color);
-}
+    .user-info span {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
 
-.menu-icon {
-  font-size: 24px;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  color: var(--primary-color);
-}
+    .menu-icon {
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      color: var(--primary-color);
+    }
 
-.menu-icon:hover {
-  color: var(--secondary-color);
-}
+    .menu-icon:hover {
+      color: var(--secondary-color);
+    }
 
-.content {
-  max-width: 800px;
-  margin: 80px auto 20px;
-  padding: 20px;
-}
+    .content {
+      max-width: 800px;
+      margin: 80px auto 20px;
+      padding: 20px;
+    }
 
-.post-box {
-  background-color: var(--card-bg-color);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-}
+    .post-box {
+      background-color: var(--card-bg-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
 
-.post-box:hover {
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-}
+    .post-box:hover {
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
 
-.post-input {
-  display: flex;
-  align-items: center;
-}
+    .post-input {
+      display: flex;
+      align-items: center;
+    }
 
-.post-input img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-  object-fit: cover;
-  border: 2px solid var(--primary-color);
-}
+    .post-input img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+      border: 2px solid var(--primary-color);
+    }
 
-.post-input input {
-  flex-grow: 1;
-  border: none;
-  padding: 15px;
-  border-radius: 25px;
-  background-color: var(--bg-color);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  font-size: 16px;
-}
+    .post-input input {
+      flex-grow: 1;
+      border: none;
+      padding: 15px;
+      border-radius: 25px;
+      background-color: var(--bg-color);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-size: 16px;
+    }
 
-.post-input input:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--primary-color);
-  background-color: var(--card-bg-color);
-}
+    .post-input input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary-color);
+      background-color: var(--card-bg-color);
+    }
 
-.post-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 15px;
-}
+    .post-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 15px;
+    }
 
-.post-actions button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin-left: 10px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+    .post-actions button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-left: 10px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-.post-actions button:hover {
-  background-color: var(--secondary-color);
-  transform: translateY(-2px);
-}
+    .post-actions button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
 
-.post {
-  background-color: var(--card-bg-color);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  animation: fadeIn 0.5s ease-out;
-}
+    .post {
+      background-color: var(--card-bg-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+      animation: fadeIn 0.5s ease-out;
+    }
 
-.post:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-}
+    .post:hover {
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.post-user {
-  display: flex;
-  align-items: center;
-}
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
 
-.post-user img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-  object-fit: cover;
-  border: 2px solid var(--primary-color);
-}
+    .post-user {
+      display: flex;
+      align-items: center;
+    }
 
-.post-user-info {
-  display: flex;
-  flex-direction: column;
-}
+    .post-user img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+      border: 2px solid var(--primary-color);
+    }
 
-.post-user-name {
-  font-weight: bold;
-  font-size: 18px;
-  color: var(--text-color);
-}
+    .post-user-info {
+      display: flex;
+      flex-direction: column;
+    }
 
-.post-time {
-  font-size: 14px;
-  color: #65676b;
-}
+    .post-user-name {
+      font-weight: bold;
+      font-size: 18px;
+      color: var(--text-color);
+    }
 
-.post-options {
-  position: relative;
-}
+    .post-time {
+      font-size: 14px;
+      color: #65676b;
+    }
 
-.post-options-button {
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  color: var(--text-color);
-}
+    .post-options {
+      position: relative;
+    }
 
-.post-options-button:hover {
-  color: var(--primary-color);
-  transform: rotate(90deg);
-}
+    .post-options-button {
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      transition: color 0.3s ease;
+      color: var(--text-color);
+    }
 
-.post-options-dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  background-color: var(--card-bg-color);
-  min-width: 150px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  border-radius: 8px;
-  overflow: hidden;
-}
+    .post-options-button:hover {
+      color: var(--primary-color);
+    }
 
-.post-options-dropdown a {
-  color: var(--text-color);
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  transition: background-color 0.3s ease;
-}
+    .post-options-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: var(--card-bg-color);
+      min-width: 150px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
 
-.post-options-dropdown a:hover {
-  background-color: var(--bg-color);
-}
+    .post-options-dropdown a {
+      color: var(--text-color);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
 
-.post-content {
-  margin-bottom: 15px;
-  line-height: 1.6;
-  font-size: 16px;
-  color: var(--text-color);
-}
+    .post-options-dropdown a:hover {
+      background-color: var(--bg-color);
+    }
 
-.post-image {
-  width: 100%;
-  border-radius: 12px;
-  margin-top: 15px;
-  transition: transform 0.3s ease;
-}
+    .post-content {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      font-size: 16px;
+      color: var(--text-color);
+    }
 
-.post-image:hover {
-  transform: scale(1.02);
-}
+    .post-image {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+      transition: transform 0.3s ease;
+    }
 
-.menu-container {
-  position: fixed;
-  top: 70px;
-  right: 20px;
-  background-color: var(--card-bg-color);
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  display: none;
-  animation: slideIn 0.3s ease-out;
-}
+    .post-image:hover {
+      transform: scale(1.02);
+    }
+
+    .menu-container {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background-color: var(--card-bg-color);
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: none;
+      animation: slideIn 0.3s ease-out;
+    }
 
     @keyframes slideIn {
       from {
@@ -622,39 +621,64 @@ body {
     }
 
     #closeModal {
-      background-color: #ff4444;
+      background-color: #ff444400;
       color: white;
       border: none;
-      padding: 10px 15px;
+      padding: 20px 40px;
       text-align: center;
       text-decoration: none;
       display: inline-block;
-      font-size: 16px;
+      font-size: 20px;
       margin: 4px 2px;
       cursor: pointer;
       border-radius: 5px;
     }
 
-    #closeModal:hover {
-      background-color: #cc0000;
+    .image-preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .image-preview-container img {
+      max-width: 100px;
+      max-height: 100px;
+      margin: 5px;
+      object-fit: cover;
+    }
+
+    .post-images,
+    .comment-images {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .post-image,
+    .comment-image {
+      max-width: 200px;
+      max-height: 200px;
+      margin: 5px;
+      object-fit: cover;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
   <div id="imageModal" class="modal">
-  <div class="modal-controls">
-    <button id="zoomIn">+</button>
-    <button id="zoomOut">-</button>
-    <div class="menu-close-container">
-      
-      <button id="closeModal">X</button>
+    <div class="modal-controls">
+      <button id="zoomIn">+</button>
+      <button id="zoomOut">-</button>
+      <div class="menu-close-container">
+
+        <button id="closeModal">X</button>
+      </div>
+    </div>
+    <div class="modal-content">
+      <img id="modalImage" draggable="false">
     </div>
   </div>
-  <div class="modal-content">
-    <img id="modalImage" draggable="false">
-  </div>
-</div>
   <div class="loading" id="loading"></div>
   <div class="header">
     <div class="user-info" onclick="window.location.href = 'infor.html';">
@@ -682,8 +706,10 @@ body {
       <div class="post-actions">
         <button onclick="addPost()"><i class="fas fa-paper-plane"></i> Đăng</button>
         <button onclick="document.getElementById('fileInput').click()"><i class="fas fa-image"></i> Đính Kèm</button>
-        <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="handleFileUpload(event)">
+        <input type="file" id="fileInput" style="display: none;" accept="image/*" multiple
+          onchange="handleFileUpload(event)">
       </div>
+      <div id="imagePreviewContainer" class="image-preview-container"></div>
     </div>
     <div id="posts-container">
       <!-- Posts will be added here dynamically -->
@@ -709,7 +735,7 @@ body {
     const storage = firebase.storage();
 
     let currentUser = null;
-    let selectedImage = null;
+    let selectedImage = [];
 
     function updateUIAfterLogin() {
       const userAvatar = document.getElementById('userAvatar');
@@ -765,17 +791,17 @@ body {
 
     function submitReply(postId) {
       const replyContent = document.getElementById(`reply-content-${postId}`).value.trim();
-      const replyImagePreview = document.getElementById(`reply-image-preview-${postId}`);
-      const replyImage = replyImagePreview.dataset.imageData;
+      const replyImagePreview = document.getElementById(`replyImagePreviewContainer-${postId}`);
+      const replyImages = JSON.parse(replyImagePreview.dataset.images || '[]');
 
-      if ((replyContent || replyImage) && currentUser) {
+      if ((replyContent || replyImages.length > 0) && currentUser) {
         showLoading();
 
         const newComment = {
           author: currentUser.name,
           authorPicture: currentUser.avatar || 'account.png',
           content: replyContent,
-          image: replyImage,
+          images: replyImages,
           timestamp: firebase.database.ServerValue.TIMESTAMP
         };
 
@@ -784,7 +810,7 @@ body {
           .then(() => {
             document.getElementById(`reply-content-${postId}`).value = '';
             replyImagePreview.innerHTML = '';
-            delete replyImagePreview.dataset.imageData;
+            replyImagePreview.dataset.images = JSON.stringify([]);
             loadComments(postId);
             hideLoading();
           })
@@ -794,6 +820,7 @@ body {
           });
       }
     }
+
     var modal = document.getElementById("imageModal");
     var modalImg = document.getElementById("modalImage");
     var modalContent = document.querySelector(".modal-content");
@@ -824,26 +851,6 @@ body {
       }
     });
 
-    // Đóng modal khi nhấn vào vùng không chứa ảnh
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-
-    // Phóng to
-    zoomInBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      scale *= 1.2;
-      updateImageTransform();
-    });
-
-    // Thu nhỏ
-    zoomOutBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      scale /= 1.2;
-      updateImageTransform();
-    });
 
     // Xử lý kéo thả ảnh
     modalImg.addEventListener('mousedown', function (e) {
@@ -913,7 +920,10 @@ body {
           <span>${comment.author}</span>
         </div>
         <div class="comment-content">${comment.content}</div>
-        ${comment.image ? `<img src="${comment.image}" alt="Comment image" class="comment-image">` : ''}
+         ${comment.images && comment.images.length > 0 ?
+              `<div class="comment-images">
+        ${comment.images.map(image => `<img src="${image}" alt="Comment image" class="comment-image">`).join('')}
+      </div>` : ''}
         <div class="comment-time">${getTimeDifference(comment.timestamp)}</div>
         ${currentUser && currentUser.name === comment.author ? `
           <div class="comment-actions">
@@ -954,19 +964,26 @@ body {
     }
 
     function handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          selectedImage = e.target.result;
-          // Hiển thị ảnh xem trước
-          const previewContainer = document.createElement('div');
-          previewContainer.innerHTML = `<img src="${selectedImage}" alt="Preview" style="max-width: 100%; max-height: 200px; margin-top: 10px;">`;
-          document.querySelector('.post-input').appendChild(previewContainer);
+      const files = event.target.files;
+      selectedImages = [];
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      previewContainer.innerHTML = '';
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            selectedImages.push(e.target.result);
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.maxWidth = '100px';
+            img.style.maxHeight = '100px';
+            img.style.margin = '5px';
+            previewContainer.appendChild(img);
+          }
+          reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file);
-      } else {
-        alert('Vui lòng chọn một tệp ảnh hợp lệ.');
       }
     }
 
@@ -1082,16 +1099,16 @@ body {
 
       const input = document.querySelector('#postInput');
       const content = input.value.trim();
-      if (content || selectedImage) {
+      if (content || selectedImages.length > 0) {
         const currentTime = getCurrentTime();
         const newPost = {
           id: 'post-' + currentTime,
           content: content,
-          image: selectedImage,
+          images: selectedImages,
           author: currentUser.name,
           authorPicture: currentUser.avatar || 'account.png',
           timestamp: firebase.database.ServerValue.TIMESTAMP,
-          comments: {} // Thêm trường comments
+          comments: {}
         };
 
         const postRef = database.ref('posts').push();
@@ -1099,17 +1116,43 @@ body {
           .then(() => {
             displayPostAtTop(newPost);
             input.value = '';
-            selectedImage = null;
-            const previewContainer = document.querySelector('.post-input div');
-            if (previewContainer) {
-              previewContainer.remove();
-            }
+            selectedImages = [];
+            document.getElementById('imagePreviewContainer').innerHTML = '';
           })
           .catch(error => {
             console.error('Lỗi khi lưu bài đăng:', error);
           });
       }
     }
+
+    function handleReplyFileUpload(event, postId) {
+      const files = event.target.files;
+      const previewContainer = document.getElementById(`replyImagePreviewContainer-${postId}`);
+      previewContainer.innerHTML = '';
+      previewContainer.dataset.images = JSON.stringify([]);
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const images = JSON.parse(previewContainer.dataset.images);
+            images.push(e.target.result);
+            previewContainer.dataset.images = JSON.stringify(images);
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.maxWidth = '100px';
+            img.style.maxHeight = '100px';
+            img.style.margin = '5px';
+            previewContainer.appendChild(img);
+          }
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+
+
 
     function displayPostAtTop(post) {
       const postContainer = document.getElementById('posts-container');
@@ -1165,13 +1208,13 @@ body {
       ` : ''}
     </div>
     <div class="post-content" id="${post.id}-content">${post.content}</div>
-    ${post.image ? `<img src="${post.image}" alt="Uploaded Image" class="post-image">` : ''}
+   ${post.images && post.images.length > 0 ?
+          `<div class="post-images">
+      ${post.images.map(image => `<img src="${image}" alt="Uploaded Image" class="post-image">`).join('')}
+    </div>` : ''}
     <div class="post-actions">
       <button class="post-action-button" onclick="bookmarkPost('${post.id}')">
         <i class="fas fa-bookmark"></i> Đánh dấu
-      </button>
-      <button class="post-action-button" onclick="sharePost('${post.id}')">
-        <i class="fas fa-share"></i> Chia sẻ
       </button>
       <button class="post-action-button" onclick="toggleReplyForm('${post.id}')">
         <i class="fas fa-reply"></i> Trả lời
@@ -1180,10 +1223,11 @@ body {
     <div id="reply-form-${post.id}" class="reply-form" style="display: none;">
       <textarea id="reply-content-${post.id}" placeholder="Nhập trả lời của bạn"></textarea>
       <div class="reply-actions">
-        <button onclick="attachImageToReply('${post.id}')">Đính kèm ảnh</button>
+        <button onclick="document.getElementById('replyFileInput-${post.id}').click()">Đính kèm ảnh</button>
+        <input type="file" id="replyFileInput-${post.id}" style="display: none;" accept="image/*" multiple onchange="handleReplyFileUpload(event, '${post.id}')">
         <button onclick="submitReply('${post.id}')">Gửi</button>
       </div>
-      <div id="reply-image-preview-${post.id}" class="image-preview"></div>
+      <div id="replyImagePreviewContainer-${post.id}" class="image-preview-container"></div>
     </div>
     <div id="comments-${post.id}" class="comments-section"></div>
   `;
